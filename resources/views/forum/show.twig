@@ -23,8 +23,6 @@
         </div>
         <div class="forum_comments mt-5">
             <div class="forum_comments_title">
-                <h4>Comentarios</h4>
-                <hr>
                 <div class="forum_comments_compose">
                     <form action="{{ 'forums/addComment' | url }}" id="formCreateComment" method="POST" enctype="application/x-www-form-urlencoded">
                         <div class="form-group">
@@ -38,6 +36,8 @@
                         </div>
                     </form>
                 </div>
+                <h4>Comentarios</h4>
+                <hr>
                 <div class="forum_comments_list">
 
                     {% for comment in data.comments %}

@@ -73,18 +73,13 @@ class Comment extends Model
     
     public function find($field, $value)
     {
-        $result = $this->getCollection()->findOne([$field => $value]);
+        $cursor = $this->getCollection()->find([$field => $value]);
+        $comments = array();
 
-        if($result)
-        {
-            $this->_id = $result->_id;
-            $this->_userId = $result->userId;
-            $this->_forumId = $result->forumId;
-            $this->_body = $result->body;
-            $this->_createdAt = $result->created_at;
-        }
+        foreach($cursor as $key => $comment)
+            array_push($comments, $comment);
 
-        return $this;
+        return $comments;
     }
 
     public function save()

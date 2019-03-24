@@ -63,7 +63,10 @@ class ForumController extends BaseController
 
         // 
         $comment = new Comment();
-        $comments = $comment->all();
+        $comments = $comment->find('forumId', $this->forum->getId());
+
+        // print_r($comments);
+        // exit();
 
         return $this->renderView('forum/show.twig', [
             'forum'     => $this->forum,
@@ -74,10 +77,10 @@ class ForumController extends BaseController
 
     public function getComments($forum)
     {
-        $comment = new Comment();
+        // $comment = new Comment();
 
-        $data = $comment->all();
+        // $data = $comment->all();
 
-        echo json_encode($data);
+        // echo json_encode($data);
     }
 }

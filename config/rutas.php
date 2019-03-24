@@ -8,7 +8,7 @@ $route = $_GET['route'] ?? '/';
 $router = new RouteCollector();
 
 // Rutas para la autenticación y registro de usuarios
-$router->group(['prefix' => 'auth'], function($router){
+$router->group(['prefix' => 'auth', 'before' => 'guess'], function($router){
 
     // Ruta que muestra el formulario para el inicio de sesión
     $router->get('login', [App\Controllers\Auth\LoginController::class, 'showForm']);
@@ -24,6 +24,14 @@ $router->filter('auth', function(){
     if(!isset($_SESSION['authenticated'])) 
     {
         header('Location: auth/login');
+        return false;
+    }
+});
+
+$router->filter('guess', function(){    
+    if(isset($_SESSION['authenticated'])) 
+    {
+        header('Location: '.BASE_URL);
         return false;
     }
 });

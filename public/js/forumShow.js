@@ -8,16 +8,13 @@ window.addEventListener('load', function() {
     const forumId = document.getElementById('forumId').value;
 
     // Obtenemos todos los foros
-    forum.getComments(forumId)
-    .then(resp => {
+    // forum.getComments(forumId)
+    // .then(resp => {
         
-        resp.data.map(function(forum, index){
-            showForum(forum);
-        })
-    })
-    .catch(err => {
+    // })
+    // .catch(err => {
 
-    });
+    // });
 
     // Evento para cuando se envia el comentario
     document.getElementById('formCreateComment').addEventListener('submit', function(e){
