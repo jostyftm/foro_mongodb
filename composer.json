@@ -11,6 +11,7 @@
         "mongodb/mongodb": "^1.0.0",
         "phroute/phroute": "^2.1",
         "twig/twig": "^2.0",
-        "siriusphp/validation": "^2.2"
+        "siriusphp/validation": "^2.2",
+        "nesbot/carbon": "^2.16"
     }
 }

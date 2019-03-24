@@ -1,5 +1,61 @@
 {% extends "./layout/app.twig" %}
 
 {% block content %}
-    <h2>Inicio</h2>
+    <div class="row">
+        <div class="col-md-2">
+            {% include "./layout/sidebarHome.twig" %}
+        </div>
+        <div class="col-md-9">
+            <div class="bg-white shadow-sm p-3 mb-4 rounded">
+                <h2>Foros</h2>
+                <div class="d-flex flex-column" id="forumListHome">
+
+                    {# <div class="forum d-flex d-flex align-items-center p-3">
+                        <div class="mr-4">
+                            <img src="http://via.placeholder.com/50" alt="..." class="rounded-circle">
+                        </div>
+                        <div class="forum_body mr-4">
+                            <a class="text-decoration-none text-dark" href="#">
+                                <h5>Titulo</h5>
+                            </a>
+                            <div class="forum_body_description">
+                                <p class="text-muted">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                                    Voluptate earum cumque dolor odit ratione? Error dicta 
+                                    maiores adipisci natus cumque minima at id nihil amet. 
+                                    Rerum cupiditate eaque debitis nulla.
+                                </p>
+                            </div> 
+                            <div class="forum_body_last_reply">
+                                <a class="" href="#">User12454</a>
+                                Respondio
+                                <span>
+                                    <a href="#" class="text-dark font-weight-bold">hace 6 min</a>
+                                <span>
+                            </div>
+                        </div>
+                        <div class="forum_tags">
+                            <div class="forum_tags_comments text-muted d-flex d-flex align-items-center">
+                                <span class="mr-1">
+                                    <i class="fas fa-comment"></i>
+                                </span>
+                                <span>20</span>
+                            </div>
+                        </div>
+                    </div> #}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "./forum/new.twig" %}
+{% endblock %}
+
+{% block jsHead %}
+    <script src="{{ 'js/classes/forum.js' | url }}"></script>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ 'js/home.js' | url }}"></script>
 {% endblock %}

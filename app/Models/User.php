@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
+
 class User extends Model
 {
     private $_id;
@@ -12,7 +15,7 @@ class User extends Model
 
     private $_password;
 
-    protected $collectionName = 'users';
+    protected $_collectionName = 'users';
 
     public function getId()
     {
@@ -51,7 +54,7 @@ class User extends Model
 
     private function getCollection()
     {
-        return $this->getConexion()->{$this->collectionName};
+        return $this->getConexion()->{$this->_collectionName};
     }
 
     public function find($field, $value)
@@ -75,6 +78,7 @@ class User extends Model
             'name'      =>  $_POST['name'],
             'email'     =>  $_POST['email'],
             'password'  =>  password_hash($_POST['password'], PASSWORD_DEFAULT),
+            'creatad_ar'=>  Carbon::now()->toDateTimeString(),
         ]);
 
         if($result->getInsertedCount())

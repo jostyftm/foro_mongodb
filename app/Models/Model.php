@@ -4,8 +4,11 @@ namespace App\Models;
 
 
 
-class Model
+
+
+class Model implements \MongoDB\BSON\Serializable
 {
+    
     private $dbName = 'foro';
 
     private $clientDB;
@@ -18,5 +21,10 @@ class Model
     public function getConexion()
     {
         return $this->clientDB->{$this->dbName};
+    }
+    
+    public function bsonSerialize()
+    {
+
     }
 }

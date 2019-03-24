@@ -1,0 +1,27 @@
+<div class="modal fade" id="modalCreateForum" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form action="{{ 'forums' | url }}" id="formCreateForum" method="POST" enctype="application/x-www-form-urlencoded">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crear Foro</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">Titulo del foro</label>
+                        <input class="form-control" type="text" id="forumTitle" name="forumTitle"></div>
+                        <div class="form-group">
+                            <label for="">Descripción</label>
+                            <textarea class="form-control" id="forumDescription" name="forumDescription"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                        <button class="btn btn-primary" id="buttonCreateForum" type="submit">Crear</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

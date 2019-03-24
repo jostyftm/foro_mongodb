@@ -7,3 +7,13 @@ body {
   	background-color: #fff;
   	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
+.forum:hover{
+    background-color: #f6f6f6;
+    border-radius: .5rem;
+    cursor: pointer;
+}
+
+.forum_body_last_reply {
+    font-size: .75rem;
+}

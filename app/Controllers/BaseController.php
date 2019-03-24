@@ -7,8 +7,11 @@ use Twig\Environment;
 
 use App\Models\User;
 
+use App\Traits\StringTrait;
+
 class BaseController
 {
+    use StringTrait;
 
     private $loader;
 
@@ -46,6 +49,9 @@ class BaseController
 
     protected function renderView($template, $data)
     {
-        return $this->twig->render($template, $data);
+        return $this->twig->render($template, [
+            'user' => $this->user,
+            'data'  =>  $data
+        ]);
     }
 }

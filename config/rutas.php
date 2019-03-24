@@ -31,9 +31,28 @@ $router->filter('auth', function(){
 // 
 $router->group(['before' => 'auth'], function($router){
 
+    // Funcion para cerrar sesión
+    $router->post('logout', [App\Controllers\Auth\AuthController::class, 'logout']);
+
     // Ruta raiz
     $router->get('/', [App\Controllers\IndexController::class, 'index']);
     $router->get('/home', [App\Controllers\HomeController::class, 'index']);
+
+    // Grupo de rutas para los foros
+    $router->group(['prefix' => 'forums'], function($router){
+
+        // ruta para crear un foro
+        // $router->get('new', [App\Controllers\ForumController::class, 'create']);
+        $router->get('/', [App\Controllers\ForumController::class, 'index']);
+        $router->post('/', [App\Controllers\ForumController::class, 'store']);
+        $router->get('/{forum}', [App\Controllers\ForumController::class, 'show']);
+        $router->get('/{forum}/comments', [App\Controllers\ForumController::class, 'getComments']);
+    });
+
+    $router->group(['prefix' => 'comments'], function($router){
+
+        $router->post('/', [App\Controllers\CommentController::class, 'store']);
+    });
 
 });
 
