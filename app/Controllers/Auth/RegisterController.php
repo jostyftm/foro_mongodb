@@ -24,20 +24,30 @@ class RegisterController extends BaseController
         // 
         if($user->save($_POST))
         {
-            return json_encode([
-                'success'   =>  true,
-                'message'   =>  'Registro exitoso'
-            ]);
+            $this->sendRegisterResponse();
         }else{
-            return json_encode([
-                'success'   =>  false,
-                'message'     =>  'Los sentimos ocurrio un error vuelve a intertarlo'  
-            ]);
+            $this->sendFaliedRegisterResponse();
         }
     }
 
     public function validator($data = array())
     {
         
+    }
+
+    private function sendRegisterResponse()
+    {
+        return $this->sendResponse([
+            'success'   =>  true,
+            'message'   =>  'Registro exitoso'
+        ], 200);
+    }
+
+    private function sendFaliedRegisterResponse()
+    {
+        return $this->sendResponse([
+            'success'   =>  false,
+            'message'     =>  'Los sentimos ocurrio un error vuelve a intertarlo'  
+        ], 500);
     }
 }
