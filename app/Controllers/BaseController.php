@@ -7,14 +7,14 @@ use Twig\Environment;
 
 use App\Models\User;
 
-use App\Traits\StringTrait;
-
 use App\Libraries\Http\ResponseHttp;
 
+/**
+ * Clase BaseController
+ * Representa el controlador base, este controlador sera hereado por otros controladores
+ */
 class BaseController
 {
-    use StringTrait;
-
     private $loader;
 
     protected $twig;
@@ -25,14 +25,21 @@ class BaseController
 
     protected $responseHttp;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
+        // Cargamos el motor de plantilla
         $this->loadTemplateEngine();
 
+        // Obtenemos el usuario con la sessión iniciada si lo hay
         $this->getUserLoged();
 
+        // Cargamos los filtros
         $this->configFilters();
 
+        // Instanceamos el objetos para retornar las respuestas json a las vistas
         $this->responseHttp = new ResponseHttp();
     }
 
@@ -57,6 +64,9 @@ class BaseController
         }));
     }
 
+    /**
+     * Función que obtiene la session del usuario, si lo hay
+     */
     private function getUserLoged()
     {
         // 
@@ -68,6 +78,9 @@ class BaseController
         }
     }
 
+    /**
+     * Función que renderiza una vista con los datos
+     */
     protected function renderView($template, $data)
     {
         return $this->twig->render($template, [
@@ -76,6 +89,10 @@ class BaseController
         ]);
     }
 
+    /**
+     * Funcion que envia respuesta json
+     * 
+     */
     protected function sendResponse($data = array(), $code = 200)
     {
         return $this->responseHttp->response($data, $code);

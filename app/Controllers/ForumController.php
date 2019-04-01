@@ -20,7 +20,7 @@ class ForumController extends BaseController
     {
         $forums = $this->forum->all();
 
-        echo json_encode($forums);
+        echo $this->sendResponse($forums, 200);
     }
 
     public function create()
