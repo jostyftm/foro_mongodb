@@ -29,33 +29,28 @@ class CommentController extends BaseController
         $this->comment->setUserId($this->user->getId());
         $this->comment->setUserName($this->user->getName());
 
-        if($this->comment->save())
-        {
-            return json_encode([
+        if($this->comment->save()){
+            return $this->sendResponse()([
                 'success'   =>  true,
                 'message'   =>  'Registro exitoso'
-            ]);
+            ], 200);
         }else{
-            return json_encode([
+            return $this->sendResponse([
                 'success'   =>  false,
                 'message'     =>  'Los sentimos ocurrio un error vuelve a intertarlo'  
-            ]);
+            ], 400);
         }
     }
 
     public function delete($comment)
     {
-        if($this->comment->delete($comment))
-        {
-            http_response_code(204);
-
+        if($this->comment->delete($comment)){
+            return $this->sendResponse([], 204);
         }
         else{
-            http_response_code(422);
-
-            echo json_encode([
+            return $this->sendResponse([
                 'message' => 'Ocurio un error'
-            ]);
+            ], 400);
         }
     }
 }

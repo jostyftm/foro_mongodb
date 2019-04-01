@@ -36,23 +36,22 @@ class ForumController extends BaseController
         $this->forum->setUserId($this->user->getId());
         $this->forum->setIsOpen(true);
 
-        if($this->forum->save())
-        {
-            return json_encode([
+        if($this->forum->save()){
+            return $this->sendResponse([
                 'success'   =>  true,
                 'message'   =>  'Registro exitoso'
-            ]);
+            ], 200);
         }else{
-            return json_encode([
+            return $this->sendResponse([
                 'success'   =>  false,
                 'message'     =>  'Los sentimos ocurrio un error vuelve a intertarlo'  
-            ]);
+            ], 500);
         }
     }
 
     public function show($forum)
     {
-        $this->forum->find('_id' , new \MongoDB\BSON\ObjectId($forum));
+        $this->forum->find('_id' , $forum);
         
         // 
         $user = new User();
@@ -72,7 +71,7 @@ class ForumController extends BaseController
 
     public function edit($forum)
     {
-        $this->forum->find('_id' , new \MongoDB\BSON\ObjectId($forum));
+        $this->forum->find('_id' , $forum);
 
         return $this->renderView('forum/edit.twig', [
             'forum' =>  $this->forum
@@ -82,7 +81,7 @@ class ForumController extends BaseController
     public function update($forum)
     {
 
-        $this->forum->find('_id' , new \MongoDB\BSON\ObjectId($forum));
+        $this->forum->find('_id' , $forum);
 
         $forumOpen = ($_POST['isOpen'] == 'true') ? true : false;
 
@@ -93,20 +92,16 @@ class ForumController extends BaseController
 
         if($this->forum->update())
         {
-            http_response_code(200);
-
-            return json_encode([
+            return $this->sendResponse([
                 'success'   =>  true,
-                'message'   =>  'Registro exitoso'
-            ]);
+                'message'   =>  'Actualización exitosa'
+            ], 200);
         }else{
 
-            http_response_code(500);
-
-            return json_encode([
+            return $this->sendResponse([
                 'success'     =>  false,
                 'message'     =>  'Los sentimos ocurrio un error vuelve a intertarlo'  
-            ]);
+            ], 500);
         }
     }
 }

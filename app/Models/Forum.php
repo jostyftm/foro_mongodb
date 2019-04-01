@@ -152,8 +152,17 @@ class Forum extends Model
      */
     public function find($field, $value)
     {
-        // Llamamos a la función findOne y le pasamos los parametos
-        $result = $this->getCollection()->findOne([$field => $value]);
+        $result = null;
+        
+        if($field === '_id'){
+            $result = $this->getCollection()->findOne([
+                $field => new \MongoDB\BSON\ObjectId($value)
+            ]);
+        }else{
+
+            // Llamamos a la función findOne y le pasamos los parametos
+            $result = $this->getCollection()->findOne([$field => $value]);
+        }
 
         // Si hay resultados asignamos los valores a los atributos de la clase
         if($result)

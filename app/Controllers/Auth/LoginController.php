@@ -26,28 +26,35 @@ class LoginController extends BaseController
             $_SESSION['_id'] = $user->getId();
             $_SESSION['user'] = $user->getName();
 
-            http_response_code(200);
-            
-            return json_encode([
-                'success' => true,
-                'message' => 'Inicio de sesión exitoso'
-            ]);
+            $this->sendLoginResponse();
         }else {
 
-            http_response_code(422);
-
-            return json_encode([
-                'success' => false,
-                'message' => 'Datos incorrectos'
-            ]);
+            $this->sendFaliedLoginResponse();
         }
-        // echo $_POST['password'].' <br />';
-        // echo $user->getPassword().'<br />';
-        // echo password_verify($_POST['password'], $user->getPassword());
     }
 
     public function validator($data = array())
     {
 
+    }
+
+    private function sendLoginResponse()
+    {
+        $data = [
+            'success' => true,
+            'message' => 'Inicio de sesión exitoso'
+        ];
+
+        return $this->sendResponse($data, 200);
+    }
+
+    private function sendFaliedLoginResponse()
+    {
+        $data = [
+            'success' => false,
+            'message' => 'Datos incorrectos'
+        ];
+
+        return $this->sendResponse($data, 400);
     }
 }

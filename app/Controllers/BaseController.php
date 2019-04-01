@@ -9,6 +9,8 @@ use App\Models\User;
 
 use App\Traits\StringTrait;
 
+use App\Libraries\Http\ResponseHttp;
+
 class BaseController
 {
     use StringTrait;
@@ -21,7 +23,20 @@ class BaseController
 
     protected $user;
 
+    protected $responseHttp;
+
     public function __construct()
+    {
+        $this->loadTemplateEngine();
+
+        $this->getUserLoged();
+
+        $this->configFilters();
+
+        $this->responseHttp = new ResponseHttp();
+    }
+
+    private function loadTemplateEngine()
     {
         // Creamos el objeto que se encarga de cargar las plantillas twig desde una ruta
         $this->loader = new FilesystemLoader('../resources/views'); 
@@ -32,7 +47,18 @@ class BaseController
             'cache' =>  false,
             'auto_reload '  =>  true,
         ]);
+    }
 
+    private function configFilters()
+    {
+        // Agregamos un filtro para imprimir la url mediante twig
+        $this->twig->addFilter(new \Twig_SimpleFilter('url', function($url){
+            return BASE_URL.$url;
+        }));
+    }
+
+    private function getUserLoged()
+    {
         // 
         if(isset($_SESSION['authenticated'])){
 
@@ -40,11 +66,6 @@ class BaseController
 
             $this->user->find('_id', $_SESSION['_id']);
         }
-
-        // Agregamos un filtro para imprimir la url mediante twig
-        $this->twig->addFilter(new \Twig_SimpleFilter('url', function($url){
-            return BASE_URL.$url;
-        }));
     }
 
     protected function renderView($template, $data)
@@ -53,5 +74,10 @@ class BaseController
             'user' => $this->user,
             'data'  =>  $data
         ]);
+    }
+
+    protected function sendResponse($data = array(), $code = 200)
+    {
+        return $this->responseHttp->response($data, $code);
     }
 }
