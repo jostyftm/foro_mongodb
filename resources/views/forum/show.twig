@@ -15,7 +15,7 @@
                         <span class="text-muted">2019-02-11 12:00:59</span>
                     </div>
                     <div class="text-white">
-                        {% if user.id == data.forum.user_id %}
+                        {% if user.id == data.userForum.id %}
                         <a class="btn btn-primary btn-sm" href='{{ "forums/#{data.forum.id}/edit" | url }}'>
                             <i class="fas fa-edit"></i>
                         </a>

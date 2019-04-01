@@ -5,8 +5,10 @@ window.addEventListener('load', function() {
     const forum = new Forum();
 
     // 
-    const forumId = document.getElementById('forumId').value;
+    const inputForumId = document.getElementById('forumId');
+    const forumId = (inputForumId) ? inputForumId.value : null;
 
+    
     // Evento para cuando se envia el comentario
     document.getElementById('formCreateComment').addEventListener('submit', function(e){
 
