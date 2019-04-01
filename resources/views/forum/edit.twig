@@ -1,0 +1,41 @@
+{% extends "./layout/app.twig" %}
+
+{% block content %}
+
+<div class="col-md-9">
+    <div class="bg-white shadow-sm p-3 mb-4 rounded">
+        <div class="d-flex d-flex p-3">
+            <div class=" mr-4 flex-grow-1">
+                <form action='{{ "forums/#{data.forum.id}" | url }}' id="formUpdateForum" method="POST" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <label for="">Titulo del foro</label>
+                        <input class="form-control" type="text" id="forumTitle" name="forumTitle" value="{{data.forum.title}}">
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="forumIsOpen" name="forumIsOpen" value="{{data.forum.isOpen}}" {{ data.forum.isOpen ? 'checked' : '' }}>
+                        <label class="form-check-label" for="forumIsOpen">Foro abierto</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Descripción</label>
+                        <textarea class="form-control" id="forumDescription" name="forumDescription">
+                            {{ data.forum.description }}
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="forumId" id="forumId" value="{{data.forum.id}}" />
+                        <button class="btn btn-primary" id="buttonUpdateForum" type="submit">Actualizar</button>
+                    </div>
+                </form>                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block jsHead %}
+    <script src="{{ 'js/classes/forum.js' | url }}"></script>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ 'js/forumUpdate.js' | url }}"></script>
+{% endblock %}

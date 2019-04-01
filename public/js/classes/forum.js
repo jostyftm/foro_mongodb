@@ -10,6 +10,14 @@ class Forum {
         return this.title;
     }
 
+    setIsOpen(isOpen){
+        this.isOpen = isOpen;
+    }
+
+    getIsOpen(){
+        return this.isOpen;
+    }
+
     setDescription(description){
         this.description = description;
     }
@@ -50,6 +58,28 @@ class Forum {
             formData.set('description', this.getDescription());
 
             axios.post(url+'forums', formData,{
+                headers: {'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .then((result) => {
+                
+                resolve(result);
+            }).catch((err) => {
+
+                reject(err);
+            });
+        });
+    }
+
+    update(forumId){
+        
+        return new Promise( (resolve, reject) => {
+
+            const formData = new FormData();
+            formData.set('title', this.getTitle());
+            formData.set('description', this.getDescription());
+            formData.set('isOpen', this.getIsOpen());
+
+            axios.post(url+`forums/${forumId}`, formData,{
                 headers: {'Content-Type': 'application/x-www-form-urlencoded' }
             })
             .then((result) => {

@@ -26,11 +26,16 @@ class LoginController extends BaseController
             $_SESSION['_id'] = $user->getId();
             $_SESSION['user'] = $user->getName();
 
+            http_response_code(200);
+            
             return json_encode([
                 'success' => true,
                 'message' => 'Inicio de sesión exitoso'
             ]);
         }else {
+
+            http_response_code(422);
+
             return json_encode([
                 'success' => false,
                 'message' => 'Datos incorrectos'

@@ -5,16 +5,18 @@ window.addEventListener('load', function(){
     const forum = new Forum();
 
     // Obtenemos todos los foros
-    forum.getAll()
-    .then(resp => {
-        
-        resp.data.map(function(forum, index){
-            showForum(forum);
+    getAllForums = function(){
+        forum.getAll()
+        .then(resp => {
+            
+            resp.data.map(function(forum, index){
+                showForum(forum);
+            })
         })
-    })
-    .catch(err => {
+        .catch(err => {
 
-    });
+        });
+    }
 
     // Función que se encargar de renderizar los foros obtenidor por ajax
     showForum = function(forum){
@@ -52,22 +54,26 @@ window.addEventListener('load', function(){
         e.preventDefault();
 
         // Obtenemos los datos del forumario
-        let title = document.getElementById('forumTitle').value;
-        let description = document.getElementById('forumDescription').value;
+        let title = document.getElementById('forumTitle');
+        let description = document.getElementById('forumDescription');
 
         // Agregamos los datos recibidos por el formulario
-        forum.setTitle(title);
-        forum.setDescription(description);
+        forum.setTitle(title.value);
+        forum.setDescription(description.value);
 
         // Enviamos los datos al servidos
         forum.save()
         .then((result) => {
             
             $("#modalCreateForum").modal('hide');
+            
+            window.location.reload();
+
         }).catch((err) => {
             
         });
         
     });
     
+    getAllForums();
 });

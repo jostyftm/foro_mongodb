@@ -54,9 +54,6 @@ class ForumController extends BaseController
     {
         $this->forum->find('_id' , new \MongoDB\BSON\ObjectId($forum));
         
-        // $bson = \MongoDB\BSON\fromPHP($this->forum);
-        // echo \MongoDB\BSON\toJSON($bson), "\n"; 
-        
         // 
         $user = new User();
         $user->find('_id', $this->forum->getUserId());
@@ -65,8 +62,6 @@ class ForumController extends BaseController
         $comment = new Comment();
         $comments = $comment->find('forumId', $this->forum->getId());
 
-        // print_r($comments);
-        // exit();
 
         return $this->renderView('forum/show.twig', [
             'forum'     => $this->forum,
@@ -75,12 +70,43 @@ class ForumController extends BaseController
         ]);
     }
 
-    public function getComments($forum)
+    public function edit($forum)
     {
-        // $comment = new Comment();
+        $this->forum->find('_id' , new \MongoDB\BSON\ObjectId($forum));
 
-        // $data = $comment->all();
+        return $this->renderView('forum/edit.twig', [
+            'forum' =>  $this->forum
+        ]);
+    }
 
-        // echo json_encode($data);
+    public function update($forum)
+    {
+
+        $this->forum->find('_id' , new \MongoDB\BSON\ObjectId($forum));
+
+        $forumOpen = ($_POST['isOpen'] == 'true') ? true : false;
+
+        $this->forum->setTitle($_POST['title']);
+        $this->forum->setSlug($this->slug($_POST['title']));
+        $this->forum->setDescription($_POST['description']);
+        $this->forum->setIsOpen($forumOpen);
+
+        if($this->forum->update())
+        {
+            http_response_code(200);
+
+            return json_encode([
+                'success'   =>  true,
+                'message'   =>  'Registro exitoso'
+            ]);
+        }else{
+
+            http_response_code(500);
+
+            return json_encode([
+                'success'     =>  false,
+                'message'     =>  'Los sentimos ocurrio un error vuelve a intertarlo'  
+            ]);
+        }
     }
 }

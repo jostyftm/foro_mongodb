@@ -5,14 +5,16 @@
         <div class="bg-white shadow-sm p-3">
             <h4 class="text-center">Iniciar sesión</h4>
             <div>
-                <form action="{{ 'auth/login' | url }}" method="POST" enctype="application/x-www-form-urlencoded">
+                <div class="alert alert-danger d-none" id="errorLoginMessage">
+                </div>
+                <form action="{{ 'auth/login' | url }}" id="formLogin" method="POST" enctype="application/x-www-form-urlencoded">
                     <div class="form-group">
                         <label for="">Usuario</label>
-                        <input type="text" class="form-control" name="email" placeholder="pepito@mail.com">
+                        <input type="text" class="form-control" name="email" placeholder="pepito@mail.com" id="usernameLoginForm">
                     </div>
                     <div class="form-group">
                         <label for="">Contraseña</label>
-                        <input type="password" class="form-control" name="password" placeholder="************">
+                        <input type="password" class="form-control" name="password" placeholder="************" id="passwordLoginForm">
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block" >
@@ -23,4 +25,9 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ 'js/classes/auth.js' | url }}"></script>
+    <script src="{{ 'js/login.js' | url }}"></script>
 {% endblock %}

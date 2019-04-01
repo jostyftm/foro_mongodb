@@ -7,15 +7,6 @@ window.addEventListener('load', function() {
     // 
     const forumId = document.getElementById('forumId').value;
 
-    // Obtenemos todos los foros
-    // forum.getComments(forumId)
-    // .then(resp => {
-        
-    // })
-    // .catch(err => {
-
-    // });
-
     // Evento para cuando se envia el comentario
     document.getElementById('formCreateComment').addEventListener('submit', function(e){
 
@@ -41,5 +32,35 @@ window.addEventListener('load', function() {
 
             console.log(err.response);
         });
+    });
+
+    // Se agrega el evento click de manera global debido a que los elementos son adicionados
+    // dinamicamente
+    document.addEventListener('click', function(e){
+
+        const element = e.target;
+        let parentDiv = null;
+
+        // Preguntamos si elemento al que se le dio click fue el boton de eliminar
+        if(element.classList.contains('btnDeleteComment') || element.classList.contains('fa-trash')){
+            
+            e.preventDefault();
+
+            let formId = (element.tagName == 'A') ? element.getAttribute('href') : element.parentElement.getAttribute('href') ;
+            parentDiv = (element.tagName == 'A') ? element.parentElement.parentElement : element.parentElement.parentElement.parentElement ;
+            const form = document.getElementById(formId);
+            
+            axios.delete(`${url}${form.getAttribute('action')}`)
+            .then(resp => {
+
+                // 
+                parentDiv.remove();
+
+                console.log(resp.data);
+            })
+            .catch(err => {
+
+            });
+        }
     });
 });

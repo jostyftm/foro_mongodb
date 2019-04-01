@@ -9,9 +9,18 @@
                 <img src="http://via.placeholder.com/50" alt="..." class="rounded-circle">
             </div>
             <div class="forum_body mr-4 flex-grow-1">
-                <div class="forum_body_username d-flex align-items-center">
-                    <h5 class="font-weight-bold mr-2">{{ user.name }}</h5>
-                    <span class="text-muted">2019-02-11 12:00:59</span>
+                <div class="forum_body_username d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <h5 class="font-weight-bold mr-2">{{ user.name }}</h5>
+                        <span class="text-muted">2019-02-11 12:00:59</span>
+                    </div>
+                    <div class="text-white">
+                        {% if user.id == data.forum.user_id %}
+                        <a class="btn btn-primary btn-sm" href='{{ "forums/#{data.forum.id}/edit" | url }}'>
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="my-3 rounded" style="background-color: #96c4f5">
                     <h5 class="p-3 text-decoration-none text-dark">{{ data.forum.title }}</h5>
@@ -23,6 +32,7 @@
         </div>
         <div class="forum_comments mt-5">
             <div class="forum_comments_title">
+                {% if data.forum.isOpen %}
                 <div class="forum_comments_compose">
                     <form action="{{ 'forums/addComment' | url }}" id="formCreateComment" method="POST" enctype="application/x-www-form-urlencoded">
                         <div class="form-group">
@@ -36,6 +46,7 @@
                         </div>
                     </form>
                 </div>
+                {% endif %}
                 <h4>Comentarios</h4>
                 <hr>
                 <div class="forum_comments_list">
@@ -43,18 +54,31 @@
                     {% for comment in data.comments %}
                         <div class="box_comment forum d-flex p-3">
                             <div class="mr-4">
-                                    <img src="http://via.placeholder.com/50" alt="..." class="rounded-circle">
-                                </div>
-                                <div class="forum_body mr-4">
-                                    <div class="d-flex d-flex align-items-center">
-                                        <h5 class="mr-2">{{ comment.userId}}</h5>
-                                        <span class="text-muted">{{comment.created_at}}</span>
-                                    </div>
-                                    <div class="forum_body_description">
-                                        <p class="text-muted">{{ comment.body }}</p>
-                                    </div> 
-                                </div>
+                                <img src="http://via.placeholder.com/50" alt="..." class="rounded-circle">
                             </div>
+                            <div class="forum_body mr-4">
+                                <div class="d-flex d-flex align-items-center">
+                                    <h5 class="mr-2">{{ comment.userName}}</h5>
+                                    <span class="text-muted">{{comment.created_at}}</span>
+                                </div>
+                                <div class="forum_body_description">
+                                    <p class="text-muted">{{ comment.body }}</p>
+                                </div> 
+                            </div>
+                            {% if user.id == comment.userId %}
+                            <div class="box_comment_controls">
+                                <a 
+                                    class="btn btn-danger btn-sm btnDeleteComment"
+                                    href="formDelComment{{comment._id}}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                                <form action="comments/{{comment._id}}/delete" method="POST" id="formDelComment{{comment._id}}" class="formDelComment" enctype="application/x-www-form-urlencoded">
+                                    <div class="form-group">
+                                        <input type="hidden" name="comment_id">
+                                    </div>
+                                </form>
+                            </div>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>

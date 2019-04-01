@@ -54,12 +54,15 @@ $router->group(['before' => 'auth'], function($router){
         $router->get('/', [App\Controllers\ForumController::class, 'index']);
         $router->post('/', [App\Controllers\ForumController::class, 'store']);
         $router->get('/{forum}', [App\Controllers\ForumController::class, 'show']);
+        $router->get('/{forum}/edit', [App\Controllers\ForumController::class, 'edit']);
+        $router->post('/{forum}', [App\Controllers\ForumController::class, 'update']);
         $router->get('/{forum}/comments', [App\Controllers\ForumController::class, 'getComments']);
     });
 
     $router->group(['prefix' => 'comments'], function($router){
 
         $router->post('/', [App\Controllers\CommentController::class, 'store']);
+        $router->delete('/{commenet}/delete', [App\Controllers\CommentController::class, 'delete']);
     });
 
 });

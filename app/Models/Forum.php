@@ -3,7 +3,10 @@ namespace App\Models;
 
 use Carbon\Carbon;
 
-
+/**
+ * Clase Foro
+ * representa los datos de un foro
+ */
 class Forum extends Model
 {
     private $_id;
@@ -20,13 +23,22 @@ class Forum extends Model
 
     private $_createdAt;
 
+    // Nombre de la coleccion donde se guardan los registros
     private $_collectionName = 'forums';
 
+    /**
+     * Función que devuelve el id del foro
+     * @return \MongoDB\BSON\ObjectId
+     */
     public function getId()
     {
         return $this->_id;
     }
 
+    /**
+     * Funcón que asigna un titulo al foro
+     * @param String
+     */
     public function setTitle($title)
     {
         $this->_title = $title;
@@ -37,6 +49,10 @@ class Forum extends Model
         return $this->_title;
     }
 
+    /**
+     * Funcón que asigna un slug al foro
+     * @param String
+     */
     public function setSlug($slug)
     {
         $this->_slug = $slug;
@@ -47,6 +63,10 @@ class Forum extends Model
         return $this->_slug;
     }
 
+    /**
+     * Funcón que asigna la descripción del foro
+     * @param String
+     */
     public function setDescription($description)
     {
         $this->_description = $description;
@@ -57,16 +77,28 @@ class Forum extends Model
         return $this->_description;
     }
 
+    /**
+     * Funcón que asigna el id del usuario que creo el foro
+     * @param \MongoDB\BSON\ObjectId
+     */
     public function setUserId($userId)
     {
         $this->_userId = $userId;
     }
 
+    /**
+     * Función que devuelve el id del usuario que creo el foro
+     * @return \MongoDB\BSON\ObjectId
+     */
     public function getUserId()
     {
         return $this->_userId;
     }
 
+    /**
+     * Funcón que asigna si el foro esta abierto no
+     * @param Boolean
+     */
     public function setIsOpen($value)
     {
         $this->_isOpen = $value;
@@ -77,6 +109,10 @@ class Forum extends Model
         return $this->_isOpen;
     }
 
+    /**
+     * Funcón que asigna la fecha de creación del foro
+     * @param String
+     */
     public function setIsCreatedAt($date)
     {
         $this->_createdAt = $date;
@@ -87,6 +123,10 @@ class Forum extends Model
         return $this->_createdAt;
     }
 
+    /**
+     * Funcón que retorna la colección
+     * @return \MongoDB\Client
+     */
     public function getCollection()
     {
         return $this->getConexion()->{$this->_collectionName};
@@ -104,10 +144,18 @@ class Forum extends Model
         return $forums;
     }
     
+    /**
+     * Función que busca un foro de acuerdo a un campo y valor especificado
+     * @param $field
+     * @param $value
+     * @return App\Models\Forum
+     */
     public function find($field, $value)
     {
+        // Llamamos a la función findOne y le pasamos los parametos
         $result = $this->getCollection()->findOne([$field => $value]);
 
+        // Si hay resultados asignamos los valores a los atributos de la clase
         if($result)
         {
             $this->_id = $result->_id;
@@ -119,12 +167,20 @@ class Forum extends Model
             $this->_createdAt = $result->created_at;
         }
 
+        // Retornamos la clase
         return $this;
     }
 
+    /**
+     * Función que se encarga de guardar un registro en la coleción de foros
+     * @param $_POST
+     * @return Boolean
+     */
     public function save()
     {
 
+        // Llamamos a la collecion y ejecutamos el metodo "insertOne" para guardar y el resultado
+        // se almacena en $result
         $result = $this->getCollection()->insertOne([
             'title'         =>  $this->getTitle(),
             'slug'          =>  $this->getSlug(),
@@ -133,16 +189,44 @@ class Forum extends Model
             'is_open'       =>  $this->getIsOpen(),
             'created_at'    =>  Carbon::now()->toDateTimeString(),
         ]);
-
+        
+        // Si el registro se inserto retornamos "true" de lo contrario "false"
         if($result->getInsertedCount())
             return true;
         
         return false;
     }
 
+    /**
+     * Función que se encarga de actualizar un registro en la coleción de foros
+     * @return Boolean
+     */
+    public function update()
+    {
+        $result = $this->getCollection()->updateOne(
+            ['_id' => $this->getId()],
+            [ '$set' => [ 
+                'title'         =>  $this->getTitle(),
+                'slug'          =>  $this->getSlug(),
+                'description'   =>  $this->getDescription(),
+                'user_id'       =>  $this->getUserId(),
+                'is_open'       =>  $this->getIsOpen(),
+                ]
+            ]
+        );
+        
+        // Si el registro se inserto retornamos "true" de lo contrario "false"
+        if($result->getModifiedCount())
+            return true;
+        
+        return false;
+    }
+
+
     public function bsonSerialize()
     {
         return [
+            'id'            =>  $this->getId(),
             'title'         =>  $this->getTitle(),
             'slug'          =>  $this->getSlug(),
             'description'   =>  $this->getDescription(),
