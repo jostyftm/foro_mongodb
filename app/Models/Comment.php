@@ -171,7 +171,7 @@ class Comment extends Model
             'userName'      =>  $this->getUserName(),
             'forumId'       =>  $this->getForumId(),
             'body'          =>  $this->getBody(),
-            'created_at'    =>  Carbon::now()->toDateTimeString(),
+            'created_at'    =>  Carbon::now()->setTimezone("America/Bogota")->toDateTimeString(),
         ]);
         
         // Si el registro se inserto retornamos "true" de lo contrario "false"

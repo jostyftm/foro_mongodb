@@ -129,7 +129,7 @@ class User extends Model
             'name'      =>  $_POST['name'],
             'email'     =>  $_POST['email'],
             'password'  =>  password_hash($_POST['password'], PASSWORD_DEFAULT),
-            'created_at'=>  Carbon::now()->toDateTimeString(),
+            'created_at'=>  Carbon::now()->setTimezone("America/Bogota")->toDateTimeString(),
         ]);
 
         // Si el registro se inserto retornamos "true" de lo contrario "false"

@@ -196,7 +196,7 @@ class Forum extends Model
             'description'   =>  $this->getDescription(),
             'user_id'       =>  $this->getUserId(),
             'is_open'       =>  $this->getIsOpen(),
-            'created_at'    =>  Carbon::now()->toDateTimeString(),
+            'created_at'    =>  Carbon::now()->setTimezone("America/Bogota")->toDateTimeString(),
         ]);
         
         // Si el registro se inserto retornamos "true" de lo contrario "false"
