@@ -31,7 +31,6 @@ class ForumController extends BaseController
     public function store()
     {
         $this->forum->setTitle($_POST['title']);
-        $this->forum->setSlug($this->slug($_POST['title']));
         $this->forum->setDescription($_POST['description']);
         $this->forum->setUserId($this->user->getId());
         $this->forum->setIsOpen(true);
@@ -86,7 +85,6 @@ class ForumController extends BaseController
         $forumOpen = ($_POST['isOpen'] == 'true') ? true : false;
 
         $this->forum->setTitle($_POST['title']);
-        $this->forum->setSlug($this->slug($_POST['title']));
         $this->forum->setDescription($_POST['description']);
         $this->forum->setIsOpen($forumOpen);
 

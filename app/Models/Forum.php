@@ -13,8 +13,6 @@ class Forum extends Model
 
     private $_title;
 
-    private $_slug;
-
     private $_description;
 
     private $_userId;
@@ -49,19 +47,6 @@ class Forum extends Model
         return $this->_title;
     }
 
-    /**
-     * Funcón que asigna un slug al foro
-     * @param String
-     */
-    public function setSlug($slug)
-    {
-        $this->_slug = $slug;
-    }
-
-    public function getSlug()
-    {
-        return $this->_slug;
-    }
 
     /**
      * Funcón que asigna la descripción del foro
@@ -169,7 +154,6 @@ class Forum extends Model
         {
             $this->_id = $result->_id;
             $this->_title = $result->title;
-            $this->_slug = $result->slug;
             $this->_description = $result->description;
             $this->_userId = $result->user_id;
             $this->_isOpen = $result->is_open;
@@ -192,7 +176,6 @@ class Forum extends Model
         // se almacena en $result
         $result = $this->getCollection()->insertOne([
             'title'         =>  $this->getTitle(),
-            'slug'          =>  $this->getSlug(),
             'description'   =>  $this->getDescription(),
             'user_id'       =>  $this->getUserId(),
             'is_open'       =>  $this->getIsOpen(),
@@ -216,7 +199,6 @@ class Forum extends Model
             ['_id' => $this->getId()],
             [ '$set' => [ 
                 'title'         =>  $this->getTitle(),
-                'slug'          =>  $this->getSlug(),
                 'description'   =>  $this->getDescription(),
                 'user_id'       =>  $this->getUserId(),
                 'is_open'       =>  $this->getIsOpen(),
@@ -237,7 +219,6 @@ class Forum extends Model
         return [
             'id'            =>  $this->getId(),
             'title'         =>  $this->getTitle(),
-            'slug'          =>  $this->getSlug(),
             'description'   =>  $this->getDescription(),
             'user_id'       =>  $this->getUserId(),
             'is_open'       =>  $this->getIsOpen(),
